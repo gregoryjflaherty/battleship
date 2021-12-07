@@ -51,6 +51,8 @@ RSpec.describe Ship do
     cruiser.hit
 
     expect(cruiser.health).to eq(1)
+    # should submarine return health at 0 or is it deleted?
+    # expect(submarine.health).to eq(0)
   end
 
   it 'has sunk? after 2 health lost' do
@@ -59,6 +61,7 @@ RSpec.describe Ship do
     cruiser.hit
 
     expect(cruiser.sunk?).to be false
+    expect(submarine.sunk?).to be true
   end
 
   it 'has sunk? after 3 health lost' do
