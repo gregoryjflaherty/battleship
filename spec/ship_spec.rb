@@ -39,4 +39,12 @@ RSpec.describe Ship do
     expect(cruiser.health).to eq(2)
   end
 
+  it 'has lost 2 health' do
+    cruiser = Ship.new("Cruiser", 3)
+    cruiser.hit
+    cruiser.hit
+
+    expect(cruiser.health).to eq(1)
+  end
+
 end
