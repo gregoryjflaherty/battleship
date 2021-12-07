@@ -42,6 +42,7 @@ RSpec.describe Ship do
     cruiser.hit
 
     expect(cruiser.health).to eq(2)
+    expect(submarine.health).to eq(1)
   end
 
   it 'has lost 2 health' do
