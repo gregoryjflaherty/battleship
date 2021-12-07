@@ -55,4 +55,13 @@ RSpec.describe Ship do
     expect(cruiser.sunk?).to be false
   end
 
+  it 'has sunk? after 3 health lost' do
+    cruiser = Ship.new("Cruiser", 3)
+    cruiser.hit
+    cruiser.hit
+    cruiser.hit
+
+    expect(cruiser.sunk?).to be true
+  end
+
 end
