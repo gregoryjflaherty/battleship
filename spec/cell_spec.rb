@@ -52,4 +52,11 @@ RSpec.describe Cell do
 
     expect(cell_1.render).to eq('.')
   end
+
+  it 'can show if missed' do
+    cell_1 = Cell.new('B4')
+    cell_1.fire_upon
+
+    expect(cell_1.render).to eq('M')
+  end
 end
