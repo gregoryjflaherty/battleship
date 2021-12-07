@@ -78,4 +78,16 @@ RSpec.describe Cell do
     expect(cell_2.render).to eq('H')
     expect(cruiser.sunk?).to eq(false)
   end
+
+  it 'can show if sunk' do
+    cell_2 = Cell.new('C3')
+    cruiser = Ship.new('Cruiser', 3)
+    cell_2.place_ship(cruiser)
+    cell_2.fire_upon
+    cruiser.hit
+    cruiser.hit
+
+    expect(cell_2.render).to eq('X')
+    expect(cruiser.sunk?).to eq(true)
+  end
 end
