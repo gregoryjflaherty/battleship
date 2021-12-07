@@ -46,4 +46,10 @@ RSpec.describe Cell do
     expect(cell.fired_upon?).to be(true)
     expect(cell.ship.health).to be(2)
   end
+
+  it 'can render' do
+    cell_1 = Cell.new('B4')
+
+    expect(cell_1.render).to eq('.')
+  end
 end
