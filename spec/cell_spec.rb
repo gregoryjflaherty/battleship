@@ -20,12 +20,20 @@ RSpec.describe Cell do
     expect(cell.ship).to be(nil)
   end
 
-  it 'place a ship' do
+  it 'places a ship' do
     cell = Cell.new('B4')
     cruiser = Ship.new('Cruiser', 3)
     cell.place_ship(cruiser)
 
     expect(cell.ship).to be(cruiser)
     expect(cell.empty?).to be(false)
+  end
+
+  it 'can be fired upon' do
+    cell = Cell.new('B4')
+    cruiser = Ship.new('Cruiser', 3)
+    cell.place_ship(cruiser)
+
+    expect(cell.fired_upon?).to be(false)
   end
 end
