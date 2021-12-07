@@ -15,8 +15,8 @@ RSpec.describe Cell do
   end
 
   it 'can hold a ship' do
-  cell = Cell.new('B4')
+    cell = Cell.new('B4')
 
-  expect(cell.ship).to be(nil)
-end
+    expect(cell.ship).to be(nil)
+  end
 end
