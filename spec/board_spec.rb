@@ -20,4 +20,12 @@ RSpec.describe Board do
     expect(board.valid_coordinate?("E1")).to be(false)
     expect(board.valid_coordinate?("A22")).to be(false)
   end
+
+  it 'can validate coordinate and ship length'  do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be(false)
+    submarine = Ship.new("Submarine", 2)
+    expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be(false)
+  end
 end
