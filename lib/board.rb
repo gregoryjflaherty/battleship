@@ -6,13 +6,12 @@ class Board
   attr_reader :cells
 
   def initialize
-    coordinate_arr = %w( A1 A2 A3 A4 B1 B2 B3 B4 C1 C2 C3 C4 D1 D2 D3 D4 )
-
+    letters = %w( A B C D )
     @cells = Hash.new { |hash, key| hash[key] = nil}
-
-    coordinate_arr.each do |coordinate|
-      @cells[coordinate] = Cell.new(coordinate)
+    letters.each do |letter|
+      4.times do |num|
+        @cells["#{letter}#{num + 1}"] = Cell.new("#{letter}#{num + 1}")
+      end
     end
-
   end
 end
