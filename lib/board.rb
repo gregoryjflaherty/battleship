@@ -51,4 +51,13 @@ class Board
     nums_identical?(coord_array) == true ? letters_increase_1?(coord_array) : false
   end
 
+  def place(ship, coord_array)
+    if valid_placement?(ship, coord_array) == true
+      coord_array.each do |coordinate|
+        @cells[coordinate].place_ship(ship)
+      end
+    else
+      puts "Invalid placement"
+    end
+  end
 end
