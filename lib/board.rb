@@ -8,7 +8,7 @@ class Board
     letters = %w( A B C D )#.values_at method
     @cells = Hash.new { |hash, key| hash[key] = nil}
     letters.each do |letter|
-      4.times do |num|
+      4.times do |num| #where 4 is replaceable by some value x by user in it 4
         @cells["#{letter}#{num + 1}"] = Cell.new("#{letter}#{num + 1}")
       end
     end
@@ -19,6 +19,15 @@ class Board
   end
 
   def valid_placement?(ship, coord_array)
+
+    coord_array.each do |coordinate|
+      if @cells[coordinate].empty? == true
+        next
+      else
+        return false
+      end
+    end
+
     if coord_array.length == ship.length && equal_letters?(coord_array)
       nums_increase_1?(coord_array)
     elsif coord_array.length == ship.length
@@ -60,4 +69,25 @@ class Board
       puts "Invalid placement"
     end
   end
+
+  def render(show = false)
+    letters = %w( A B C D )#.values_at method
+    print_array = []
+
+    print_array << "  "
+    4.times do |num| #where 4 is replaceable by some value x by user in it 4
+      print_array << "#{num + 1} "
+    end
+    print_array << "\n"
+
+    letters.each do |letter|
+      print_array << "#{letter} "
+      4.times do |num| #where 4 is replaceable by some value x by user in it 4
+        print_array << "#{@cells["#{letter}#{num + 1}"].render} "
+      end
+      print_array << "\n"
+    end
+    return print_array.join
+  end
+
 end
