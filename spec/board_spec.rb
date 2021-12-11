@@ -127,6 +127,6 @@ RSpec.describe Board do
     board.place(cruiser, ["A1", "A2", "A3"])
     board.render(true)
 
-    expect(board.render).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
+    expect(board.render(true)).to eq("  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n")
   end
 end
