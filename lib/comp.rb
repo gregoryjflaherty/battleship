@@ -19,15 +19,23 @@ class Computer
   end
 
 
-  def horizontal_array(random_coordinate, ship)
+  def horizontal_array(rand_coordinate, ship)
     coordinates = []
-    coordinate = random_coordinate
     ship.length.times do |i|
-      coordinates << "#{coordinate[0]}#{coordinate[1].to_i + i}"
+      coordinates << "#{rand_coordinate[0]}#{rand_coordinate[1].to_i + i}"
+    end
+    coordinates
+  end
+
+  def vertical_array(rand_coordinate, ship)
+    coordinates = []
+    ship.length.times do |i|
+      ord = rand_coordinate[0].ord + i
+      coordinates << "#{ord.chr}#{rand_coordinate[1]}"
     end
     coordinates
   end
 end
 
-#comp = Computer.new
-#p comp.horizontal_array(comp.random_coordinate, comp.cruiser )
+comp = Computer.new
+p comp.vertical_array(comp.random_coordinate, comp.cruiser )
