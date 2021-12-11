@@ -27,13 +27,13 @@ RSpec.describe Computer do #Check class name with Greg
 
   it 'generates ship coordinates' do
     computer  = Computer.new
-    computer.gen_coord(cruiser)
-    expect(computer.gen_coord(cruiser).length).to be(3)
-    expect(computer.gen_coord(cruiser).valid_placement?).to be(true)
+    computer.rand_place_ship(cruiser)
+    expect(computer.rand_place_ship(cruiser).length).to be(3)
+    expect(computer.rand_place_ship(cruiser).valid_placement?).to be(true)
 
-    computer.gen_coord(submarine)
-    expect(computer.gen_coord(submarine).length).to be(2)
-    expect(computer.gen_coord(submarine).valid_placement?).to be(true)
+    computer.rand_place_ship(submarine)
+    expect(computer.rand_place_ship(submarine).length).to be(2)
+    expect(computer.rand_place_ship(submarine).valid_placement?).to be(true)
   end
 
   # it 'takes a valid shot' do
