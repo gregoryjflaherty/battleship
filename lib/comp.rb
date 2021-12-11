@@ -54,9 +54,11 @@ class Computer
         end
       end
     end
+    coordinates
+  end
+
+  def assign_to_cells(ship)
+    coordinates = rand_place_ship(ship)
     @board.place(ship, coordinates)
   end
 end
-
-comp = Computer.new
-p comp.rand_place_ship(comp.cruiser)
