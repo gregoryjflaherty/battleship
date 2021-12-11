@@ -79,15 +79,13 @@ class Board
       print_array << "#{num + 1} "
     end
     print_array << "\n"
-
     letters.each do |letter|
       print_array << "#{letter} "
       4.times do |num| #where 4 is replaceable by some value x by user in it 4
-        print_array << "#{@cells["#{letter}#{num + 1}"].render} "
+        print_array << "#{@cells["#{letter}#{num + 1}"].render(show)} "
       end
       print_array << "\n"
     end
     return print_array.join
   end
-
 end
