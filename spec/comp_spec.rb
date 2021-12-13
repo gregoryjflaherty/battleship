@@ -33,9 +33,4 @@ RSpec.describe Computer do #Check class name with Greg
     expect(computer.rand_place_ship(computer.submarine).length).to be(2)
     expect(computer.board.valid_placement?(computer.submarine, (computer.rand_place_ship(computer.submarine)))).to be(true)
   end
-
-  # it 'takes a valid shot' do
-  #   computer  = Computer.new
-  #
-  # end
 end
