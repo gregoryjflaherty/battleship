@@ -12,11 +12,13 @@ class Turn
               :comp_submarine,
               :computer,
               :user_board,
-              :shot
+              :shot,
+              :comp_shot
 
   def initialize
-    @play   = play
-    @shot   = shot
+    @play      = play
+    @shot      = shot
+    @comp_shot = comp_shot
   end
 
   def setup #2nd
@@ -74,7 +76,6 @@ class Turn
       valid = valid_shot?(@shot)
     end
     @computer.board.cells[@shot].fire_upon
-    # puts "user shot at #{@shot}"
   end
 
   def valid_shot?(coordinate)
@@ -84,26 +85,56 @@ class Turn
   def computer_shot #2nd #computer's shot is only invalid if repeated
     valid = false
     while valid == false
-      comp_shot = @computer.random_coordinate
-      if @user_board.cells[comp_shot].fired_upon? == false
-        @user_board.cells[comp_shot].fire_upon
+      @comp_shot = @computer.random_coordinate
+      if @user_board.cells[@comp_shot].fired_upon? == false
+        @user_board.cells[@comp_shot].fire_upon
         valid = true
       end
     end
-    # puts "comp shot at #{comp_shot}"
   end
 
+  def user_results
+    return "Your shot on #{@shot} was a miss." if @computer.board.cells[@shot].empty? == true
+    return "Your shot on #{@shot} was a hit and sunk my ship." if @computer.board.cells[@shot].ship.sunk? == true #refactor goal
+    return "Your shot on #{@shot} was a hit." if @computer.board.cells[@shot].empty? == false
+  end
+
+  def comp_results
+        return "My shot on #{@comp_shot} was a miss." if @user_board.cells[@comp_shot].empty? == true
+    return "My shot on #{@comp_shot} was a hit and sunk your ship." if @user_board.cells[@comp_shot].ship.sunk? == true #refactor goal
+    return "My shot on #{@comp_shot} was a hit." if @user_board.cells[@comp_shot].empty? == false
+  end
+
+  def game_over?
+    if @comp_cruiser.sunk? == true && @comp_submarine.sunk? == true
+      puts "You won!"
+      return true
+    elsif @user_cruiser.sunk? == true && @user_submarine.sunk? == true
+      puts "I won!"
+      return true
+    else
+      return false
+    end
+  end
 
   def game_flow
     setup
-    welcome_direct
+    welcome_direct #if p or q
     place_direct
     user_place(@user_cruiser)
     user_place(@user_submarine)
-    show_board
-    user_shot
-    computer_shot
-    show_board#temp
+
+    game_on = true
+    while game_on == true
+      show_board
+      user_shot
+      computer_shot
+      user_results
+      comp_results
+      game_on = !game_over?
+    end
+    next_game = Turn.new
+    next_game.game_flow
   end
 end
 turn = Turn.new
