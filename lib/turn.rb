@@ -60,4 +60,14 @@ class Turn
     puts @user_board.render(true) #Why is this returning nil
   end
 
+  def game_flow
+    setup
+    welcome_direct
+    place_direct
+    user_place(@user_cruiser)
+    user_place(@user_submarine)
+    show_board
+  end
 end
+turn = Turn.new
+turn.game_flow
