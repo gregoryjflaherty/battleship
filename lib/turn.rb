@@ -1,26 +1,34 @@
+require "./lib/ship"
+require "./lib/cell"
+require "./lib/board"
+require "./lib/comp"
+
+
 class Turn
   attr_reader :play,
-              :user_cruiser_coords,
-              :user_sub_coords
+              :user_cruiser,
+              :user_submarine,
+              :comp_cruiser,
+              :comp_submarine,
+              :computer,
+              :user_board
 
   def initialize
     @play = play
-    @user_cruiser_coords = nil
-    @user_sub_coords = nil
   end
 
-    def setup #2nd
-      @user_cruiser   = Ship.new("Cruiser", 3)
-      @user_submarine = Ship.new("Submarine", 2)
-      @comp_cruiser   = Ship.new("Cruiser", 3)
-      @comp_submarine = Ship.new("Submarine", 2)
-      @computer       = Computer.new
-      @user_board     = Board.new
+  def setup #2nd
+    @user_cruiser   = Ship.new("Cruiser", 3)
+    @user_submarine = Ship.new("Submarine", 2)
+    @comp_cruiser   = Ship.new("Cruiser", 3)
+    @comp_submarine = Ship.new("Submarine", 2)
+    @computer       = Computer.new
+    @user_board     = Board.new
 
-      @computer.assign_to_cells(@comp_cruiser) #Random assignment
-      @computer.assign_to_cells(@comp_submarine) #Random assignment
-      #
-    end
+    @computer.assign_to_cells(@comp_cruiser) #Random assignment
+    @computer.assign_to_cells(@comp_submarine) #Random assignment
+    #
+  end
 
   def welcome_direct #1st
     puts "Welcome to BATTLESHIP"
@@ -32,6 +40,17 @@ class Turn
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is three units long and the Submarine is two units long."#concatenate later
+  end
+
+  def user_place(ship)
+    @user_board.render(true) #show board
+    puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
+    coordinates = gets.chomp.split(' ')
+    while @user_board.valid_placement?(ship, coordinates) == false
+      puts "Those are invalid coordinates. Please try again:"
+      coordinates = gets.chomp.split(' ')
+    end
+    @user_board.place(ship, coordinates)
   end
 
 end
