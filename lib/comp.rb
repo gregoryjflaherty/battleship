@@ -3,8 +3,8 @@ require './lib/board'
 class Computer
   attr_reader :board, :cruiser, :submarine
 
-  def initialize
-    @board = Board.new
+  def initialize(height, length)
+    @board = Board.new(height, length)
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
