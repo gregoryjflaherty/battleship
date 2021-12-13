@@ -42,8 +42,8 @@ class Turn
     puts "The Cruiser is three units long and the Submarine is two units long."#concatenate later
   end
 
-  def user_place(ship)
-    @user_board.render(true) #show board
+  def user_place(ship) #will need to run 2x in runner (once per ship)
+    puts @user_board.render(true) #show board
     puts "Enter the squares for the #{ship.name} (#{ship.length} spaces):"
     coordinates = gets.chomp.split(' ')
     while @user_board.valid_placement?(ship, coordinates) == false
@@ -51,6 +51,13 @@ class Turn
       coordinates = gets.chomp.split(' ')
     end
     @user_board.place(ship, coordinates)
+  end
+
+  def show_board
+    puts "=============COMPUTER BOARD============="
+    puts @computer.board.render
+    puts "==============PLAYER BOARD=============="
+    puts @user_board.render(true) #Why is this returning nil
   end
 
 end
