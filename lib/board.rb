@@ -21,7 +21,7 @@ class Board
   def valid_placement?(ship, coord_array)
 
     coord_array.each do |coordinate|
-      if @cells[coordinate].empty? == true
+      if valid_coordinate?(coordinate) == true && @cells[coordinate].empty? == true #Highlight this line in our readme
         next
       else
         return false
@@ -65,8 +65,6 @@ class Board
       coord_array.each do |coordinate|
         @cells[coordinate].place_ship(ship)
       end
-    else
-      puts "Invalid placement"
     end
   end
 
@@ -86,6 +84,6 @@ class Board
       end
       print_array << "\n"
     end
-    return print_array.join
+    print_array.join
   end
 end
