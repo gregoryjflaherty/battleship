@@ -11,10 +11,12 @@ class Turn
               :comp_cruiser,
               :comp_submarine,
               :computer,
-              :user_board
+              :user_board,
+              :shot
 
   def initialize
-    @play = play
+    @play   = play
+    @shot   = shot
   end
 
   def setup #2nd
@@ -60,6 +62,38 @@ class Turn
     puts @user_board.render(true) #Why is this returning nil
   end
 
+  def user_shot #1st
+    valid = false
+    puts "Enter the coordinate for your shot:"
+    @shot = gets.chomp
+    valid = valid_shot?(@shot)
+
+    while valid == false
+      puts "Please enter a valid coordinate:"
+      @shot = gets.chomp
+      valid = valid_shot?(@shot)
+    end
+    @computer.board.cells[@shot].fire_upon
+    # puts "user shot at #{@shot}"
+  end
+
+  def valid_shot?(coordinate)
+    @computer.board.cells[coordinate].fired_upon? == false && @computer.board.valid_coordinate?(coordinate) == true
+  end
+
+  def computer_shot #2nd #computer's shot is only invalid if repeated
+    valid = false
+    while valid == false
+      comp_shot = @computer.random_coordinate
+      if @user_board.cells[comp_shot].fired_upon? == false
+        @user_board.cells[comp_shot].fire_upon
+        valid = true
+      end
+    end
+    # puts "comp shot at #{comp_shot}"
+  end
+
+
   def game_flow
     setup
     welcome_direct
@@ -67,6 +101,9 @@ class Turn
     user_place(@user_cruiser)
     user_place(@user_submarine)
     show_board
+    user_shot
+    computer_shot
+    show_board#temp
   end
 end
 turn = Turn.new
