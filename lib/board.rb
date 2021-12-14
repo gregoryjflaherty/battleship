@@ -78,14 +78,20 @@ class Board
   end
 
   def render(show = false)
-    print_array = ["  "]
+    print_array = ["   "]
     #print_array << "  "
-    @length.times {|num|print_array << "#{num + 1} "} #where 4 is replaceable by some value x by user in it 4
+    @length.times do |num|
+      if num < 9
+        print_array << "#{num + 1}   "
+      else
+        print_array << "#{num + 1}  "
+      end
+    end
     print_array << "\n"
     @height.each do |letter|
       print_array << "#{letter} "
       @length.times do |num| #where 4 is replaceable by some value x by user in it 4
-        print_array << "#{@cells["#{letter}#{num + 1}"].render(show)} "
+        print_array << " #{@cells["#{letter}#{num + 1}"].render(show)}  "
       end
       print_array << "\n"
     end
