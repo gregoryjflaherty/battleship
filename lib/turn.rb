@@ -90,7 +90,7 @@ class Turn
   end
 
   def valid_shot?(coordinate)
-    @computer.board.valid_coordinate?(coordinate) == true && @computer.board.cells[coordinate].fired_upon? == falseG5
+    @computer.board.valid_coordinate?(coordinate) == true && @computer.board.cells[coordinate].fired_upon? == false
   end
 
   def computer_shot #2nd #computer's shot is only invalid if repeated
