@@ -4,27 +4,27 @@ require './lib/ship'
 class Board
   attr_reader :cells, :height, :length
 
-  def initialize(height = get_height.to_i, length = get_length)
+  def initialize(length = get_length.to_i, height = get_height)
     @height = height
     @length = length
     @cells = Hash.new { |hash, key| hash[key] = nil}
-    @length.each do |letter|
-      @height.times do |num| #where 4 is replaceable by some value x by user in it 4
+    @height.each do |letter|
+      @length.times do |num| #where 4 is replaceable by some value x by user in it 4
         @cells["#{letter}#{num + 1}"] = Cell.new("#{letter}#{num + 1}")
       end
     end
   end
 
-  def get_height
+  def get_length
     puts "How many rows do you want the board? "
-    @height = gets.chomp
+    @length = gets.chomp
   end
 
-  def get_length
+  def get_height
     puts "How many columns do you want the board? "
     input = gets.chomp
     letters = ("A".."Z").to_a
-    @length = letters.slice!(0, input.to_i)
+    @height = letters.slice!(0, input.to_i)
   end
 
   def valid_coordinate?(coordinate)
@@ -54,11 +54,13 @@ class Board
   end
 
   def nums_increase_1?(coord_array)  ###CHANGED
-    coord_array.each_cons(2).all? {|x,y| y[-1].to_i == x[-1].to_i + 1}
+    num_array = coord_array.map {|coord| coord.delete(coord[0])}
+    num_array.each_cons(2).all? {|x,y| y.to_i == x.to_i + 1}
   end
 
   def nums_identical?(coord_array)  ##CHANGED
-    coord_array.each_cons(2).all? {|x,y| y[-1].to_i == x[-1].to_i}
+    num_array = coord_array.map {|coord| coord.delete(coord[0])}
+    num_array.each_cons(2).all? {|x,y| y.to_i == x.to_i}
   end
 
   def letters_increase_1?(coord_array) ###CHANGED
@@ -76,13 +78,13 @@ class Board
   end
 
   def render(show = false)
-    print_array = []
-    print_array << "  "
-    @height.times {|num|print_array << "#{num + 1} "} #where 4 is replaceable by some value x by user in it 4
+    print_array = ["  "]
+    #print_array << "  "
+    @length.times {|num|print_array << "#{num + 1} "} #where 4 is replaceable by some value x by user in it 4
     print_array << "\n"
-    @length.each do |letter|
+    @height.each do |letter|
       print_array << "#{letter} "
-      @height.times do |num| #where 4 is replaceable by some value x by user in it 4
+      @length.times do |num| #where 4 is replaceable by some value x by user in it 4
         print_array << "#{@cells["#{letter}#{num + 1}"].render(show)} "
       end
       print_array << "\n"
@@ -90,3 +92,21 @@ class Board
     return print_array.join
   end
 end
+board = Board.new
+puts board.render
+=begin
+def render(show = false)
+  print_array = ["  "]
+  #print_array << "  "
+  @length.times {|num|print_array << "#{num + 1} "} #where 4 is replaceable by some value x by user in it 4
+  print_array << "\n"
+  @height.each do |letter|
+    print_array << "#{letter} "
+    @length.times do |num| #where 4 is replaceable by some value x by user in it 4
+      print_array << "#{@cells["#{letter}#{num + 1}"].render(show)} "
+    end
+    print_array << "\n"
+  end
+  return print_array.join
+end
+=end
