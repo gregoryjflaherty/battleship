@@ -15,11 +15,6 @@ class Board
     end
   end
 
-  def board_choice
-    "Do you want to choose your own board"
-    "No will create a 4 x 4 board"
-  end
-
   def get_height
     puts "How many rows do you want the board? "
     @height = gets.chomp

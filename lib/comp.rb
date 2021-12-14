@@ -7,6 +7,7 @@ class Computer
     @board = Board.new(height, length)
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
+    @shot_sequence = diagonal_up_array
   end
 
   def random_coordinate  #4
@@ -61,4 +62,33 @@ class Computer
     coordinates = rand_place_ship(ship)
     @board.place(ship, coordinates)
   end
+
+  def diagonal_down_array
+    numbers = []
+    @board.length.length.times {|number| numbers << number + 1}
+    diagonal = @board.length.zip(numbers)
+    diagonal.map {|array| array.join}
+  end
+
+  def diagonal_up_array
+    numbers = []
+    @board.length.length.times {|number| numbers << number + 1}
+    diagonal = @board.length.reverse.zip(numbers)
+    diagonal.map {|array| array.join}
+  end
+
+  def start_intelligent_shots(board)
+    @shot_sequence.shuffle!
+    shot = @shot_sequence.first
+    board.cells[shot].fire_upon
+    @shot_sequence = @shot_sequence.delete(shot)
+    p @shot_sequence
+  end
 end
+
+
+user = Board.new
+computer = Computer.new(user.height, user.length)
+
+
+p computer.start_intelligent_shots(user)
