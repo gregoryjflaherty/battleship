@@ -42,18 +42,15 @@ class Board
   end
 
   def nums_increase_1?(coord_array)
-    compare = coord_array.map {|coord| coord[-1].to_i} #error if coordinate>12
-    compare.each_cons(2).all? {|x,y| y == x+1}
+    coord_array.each_cons(2).all? {|x,y| y[-1].to_i == x[-1].to_i + 1}
   end
 
   def nums_identical?(coord_array)
-    compare = coord_array.map {|coord| coord[-1].to_i} #bug if coordinate>12
-    compare.each_cons(2).all? {|x,y| y == x}
+    coord_array.each_cons(2).all? {|x,y| y[-1].to_i == x[-1].to_i}
   end
 
   def letters_increase_1?(coord_array)
-    compare = coord_array.map {|coord| coord[0].ord} #bug if coordinate>z?
-    compare.each_cons(2).all? {|x,y| y == x+1}
+    coord_array.each_cons(2).all? {|x,y| y[0].ord == x[0].ord + 1}
   end
 
   def valid_vertical?(coord_array)
@@ -61,11 +58,9 @@ class Board
   end
 
   def place(ship, coord_array)
-    if valid_placement?(ship, coord_array) == true
-      coord_array.each do |coordinate|
-        @cells[coordinate].place_ship(ship)
-      end
-    end
+    valid_placement?(ship, coord_array) == true ?
+      coord_array.each {|coordinate| @cells[coordinate].place_ship(ship) } :
+      'Invalid placement'
   end
 
   def render(show = false)
