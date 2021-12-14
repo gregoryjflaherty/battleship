@@ -100,7 +100,7 @@ class Turn
   end
 
   def comp_results
-        return "My shot on #{@comp_shot} was a miss." if @user_board.cells[@comp_shot].empty? == true
+    return "My shot on #{@comp_shot} was a miss." if @user_board.cells[@comp_shot].empty? == true
     return "My shot on #{@comp_shot} was a hit and sunk your ship." if @user_board.cells[@comp_shot].ship.sunk? == true #refactor goal
     return "My shot on #{@comp_shot} was a hit." if @user_board.cells[@comp_shot].empty? == false
   end
@@ -129,8 +129,8 @@ class Turn
       show_board
       user_shot
       computer_shot
-      user_results
-      comp_results
+      puts user_results
+      puts comp_results
       game_on = !game_over?
     end
     next_game = Turn.new
