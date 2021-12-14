@@ -119,7 +119,8 @@ class Turn
 
   def game_flow
     setup
-    welcome_direct #if p or q
+    welcome_direct
+    exit if @play == "q"
     place_direct
     user_place(@user_cruiser)
     user_place(@user_submarine)
