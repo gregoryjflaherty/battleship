@@ -1,10 +1,10 @@
 require './lib/board'
 
 class Computer
-  attr_reader :board, :cruiser, :submarine
+  attr_reader :board, :cruiser, :submarine, :shot_sequence
 
-  def initialize(height, length)
-    @board = Board.new(height, length)
+  def initialize(length, height)
+    @board = Board.new(length, height)
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @shot_sequence = diagonal_up_array
@@ -72,23 +72,25 @@ class Computer
 
   def diagonal_up_array
     numbers = []
-    @board.length.length.times {|number| numbers << number + 1}
-    diagonal = @board.length.reverse.zip(numbers)
+    @board.length.times {|number| numbers << number + 1}
+    diagonal = @board.height.reverse.zip(numbers)
     diagonal.map {|array| array.join}
   end
 
   def start_intelligent_shots(board)
     @shot_sequence.shuffle!
-    shot = @shot_sequence.first
-    board.cells[shot].fire_upon
-    @shot_sequence = @shot_sequence.delete(shot)
-    p @shot_sequence
+    board.cells[@shot_sequence.first].fire_upon
+    @shot_sequence.delete(@shot_sequence.first)
   end
 end
 
-
+=begin
 user = Board.new
-computer = Computer.new(user.height, user.length)
+p user.length
+p user.height
+computer = Computer.new(user.length, user.height)
 
-
+p computer.shot_sequence
 p computer.start_intelligent_shots(user)
+p computer.shot_sequence
+=end
