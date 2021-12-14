@@ -27,16 +27,16 @@ class Cell
   end
 
   def render(show = false)
-    if show == true && !ship.nil?
-      "S"
-    elsif show == true && ship.nil?
-      "."
-    elsif @ship.nil? && @shot_at == true
+    if @ship.nil? && @shot_at == true
       "M"
     elsif !@ship.nil? && @ship.sunk? == true
       "X"
     elsif !@ship.nil? && @shot_at == true
       "H"
+    elsif show == true && !ship.nil?
+      "S"
+    elsif show == true && ship.nil?
+      "."
     else
       "."
     end
