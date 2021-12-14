@@ -98,8 +98,8 @@ class Board
     return print_array.join
   end
 end
-board = Board.new
-puts board.render
+
+
 =begin
 def render(show = false)
   print_array = ["  "]
