@@ -13,8 +13,9 @@ class Computer
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
     @shot_sequence = diagonal_up_array
-    @last_hit = "A3"
-    @next_hit =
+    @last_hit = nil
+    @next_hit = nil
+    @horizontal_shot_array = []
   end
 
   def random_coordinate  #4
@@ -91,16 +92,32 @@ class Computer
     coord_array
   end
 
-  def horizontal_sink_pattern(board)
-    num = @last_hit[-1].to_i
-    coord_array = ["#{@last_hit[0]}#{num - 1}", "#{@last_hit[0]}#{num + 1}"]
-    board.cells[coord_array[0]].fire_upon
-
-
-    #coord_array.map {|coord| coord_array.delete(coord) if board.cells.keys.include?(coord) == false}
-    #coord_array
+  def horizontal_shots(board)
+    if board.cells[@horizontal_shot_array[0]].fired_upon? == false
+      board.cells[@horizontal_shot_array[0]].fire_upon
+      @last_hit = @horizontal_shot_array[0]
+    else
+      if board.cells.keys.include?(@horizontal_shot_array[1]) == true
+        board.cells[@horizontal_shot_array[1]].fire_upon
+        @last_hit = @horizontal_shot_array[1]
+      end
+    end
+    if board.cells[@horizontal_shot_array[0]].empty? == false && board.cells[@horizontal_shot_array[0]].ship.sunk? == true
+      @last_hit = nil
+    end
+    if board.cells[@horizontal_shot_array[0]].empty? == false
+      @last_hit = @horizontal_shot_array[0]
+    else
+      @horizontal_shot_array.shift
+    end
   end
 
+  def horizontal_sink_pattern(board)
+    num = @last_hit[-1].to_i
+    @horizontal_shot_array = ["#{@last_hit[0]}#{num - 1}", "#{@last_hit[0]}#{num + 1}"]
+    @horizontal_shot_array.map {|coord| @horizontal_shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
+    horizontal_shots(board)
+  end
 
   def start_intelligent_shots(board)
     shot = @shot_sequence.shuffle!.first
@@ -108,20 +125,30 @@ class Computer
     @last_hit = shot if board.cells[shot].empty? == false
     @shot_sequence.delete(shot)
   end
+
+  def intelligent_attack(board)
+    p "last hit - #{@last_hit}"
+    if @last_hit.nil? && !@shot_sequence.length.zero?
+      start_intelligent_shots(board)
+    else
+      horizontal_sink_pattern(board)
+    end
+  end
 end
+
 
 user_board = Board.new
 computer_board = Computer.new(user_board.length, user_board.height)
 user_submarine = Ship.new("Submarine", 2)
 user_board.place(user_submarine, ["B3", "B4"])
-p computer_board.start_intelligent_shots(user_board)
-p computer_board.shot_sequence
+computer_board.intelligent_attack(user_board)
+p computer_board.last_hit
+
+#p computer_board.intelligent_attack(user_board)
+
 
 #p computer_board.vertical_sink_pattern(user_board)
-puts user_board.render
-p computer_board.last_hit
-p computer_board.horizontal_sink_pattern(user_board)
-p computer_board.vertical_sink_pattern(user_board)
+
 
 
 

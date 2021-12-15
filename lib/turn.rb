@@ -100,6 +100,10 @@ class Turn
     end
   end
 
+  def computer_intelligent(board)
+    @comp_shot = @computer.intelligent_attack(board)
+  end
+
   def user_results
     return "Your shot on #{@shot} was a miss." if @computer.board.cells[@shot].empty? == true
     return "Your shot on #{@shot} was a hit and sunk my ship." if @computer.board.cells[@shot].ship.sunk? == true #refactor goal
@@ -136,7 +140,7 @@ class Turn
     while game_on == true
       show_board
       user_shot
-      computer_shot
+      computer_intelligent(@user_board) #computer_shot
       puts user_results
       puts comp_results
       game_on = !game_over?
