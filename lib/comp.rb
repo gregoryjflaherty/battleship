@@ -12,7 +12,7 @@ class Computer
     @board = Board.new(length, height)
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
-    @shot_sequence = diagonal_up_array
+    @shot_sequence = create_shot_sequence(diagonal_up_array, diagonal_down_array)
     @last_hit = nil
     @next_hit = nil
     @horizontal_shot_array = []
@@ -72,8 +72,8 @@ class Computer
 
   def diagonal_down_array
     numbers = []
-    @board.length.length.times {|number| numbers << number + 1}
-    diagonal = @board.length.zip(numbers)
+    @board.height.length.times {|number| numbers << number + 1}
+    diagonal = @board.height.zip(numbers)
     diagonal.map {|array| array.join}
   end
 
@@ -82,6 +82,11 @@ class Computer
     @board.length.times {|number| numbers << number + 1}
     diagonal = @board.height.reverse.zip(numbers)
     diagonal.map {|array| array.join}
+  end
+
+  def create_shot_sequence(array_1, array_2)
+    array_1.each {|coord| array_2 << coord}
+    array_2
   end
 
   def vertical_sink_pattern(board)
@@ -93,22 +98,17 @@ class Computer
   end
 
   def horizontal_shots(board)
-    if board.cells[@horizontal_shot_array[0]].fired_upon? == false
-      board.cells[@horizontal_shot_array[0]].fire_upon
-      @last_hit = @horizontal_shot_array[0]
-    else
-      if board.cells.keys.include?(@horizontal_shot_array[1]) == true
-        board.cells[@horizontal_shot_array[1]].fire_upon
-        @last_hit = @horizontal_shot_array[1]
-      end
-    end
     if board.cells[@horizontal_shot_array[0]].empty? == false && board.cells[@horizontal_shot_array[0]].ship.sunk? == true
       @last_hit = nil
-    end
-    if board.cells[@horizontal_shot_array[0]].empty? == false
+      intelligent_attack(board)
+    elsif board.cells[@horizontal_shot_array[0]].fired_upon? == false
+      board.cells[@horizontal_shot_array[0]].fire_upon
       @last_hit = @horizontal_shot_array[0]
-    else
       @horizontal_shot_array.shift
+    elsif board.cells[@horizontal_shot_array[1]].fired_upon? == false
+      board.cells[@horizontal_shot_array[1]].fire_upon
+      @last_hit = @horizontal_shot_array[1]
+      @horizontal_shot_array.pop
     end
   end
 
@@ -121,33 +121,38 @@ class Computer
 
   def start_intelligent_shots(board)
     shot = @shot_sequence.shuffle!.first
-    board.cells[shot].fire_upon
+    p "look here #{shot} in #{@shot_sequence}"
+    board.cells[shot].fire_upon if board.cells.keys.include?(shot) == true
     @last_hit = shot if board.cells[shot].empty? == false
     @shot_sequence.delete(shot)
   end
 
   def intelligent_attack(board)
     p "last hit - #{@last_hit}"
-    if @last_hit.nil? && !@shot_sequence.length.zero?
+    if @last_hit == nil
       start_intelligent_shots(board)
-    else
+    elsif @last_hit != nil
       horizontal_sink_pattern(board)
+    else
+      puts "Yay"
     end
   end
 end
 
 
-user_board = Board.new
-computer_board = Computer.new(user_board.length, user_board.height)
-user_submarine = Ship.new("Submarine", 2)
-user_board.place(user_submarine, ["B3", "B4"])
-computer_board.intelligent_attack(user_board)
-p computer_board.last_hit
+#user_board = Board.new
+#computer_board = Computer.new(user_board.length, user_board.height)
+#user_submarine = Ship.new("Submarine", 2)
+#user_board.place(user_submarine, ["B3", "B4"])
+#computer_board.intelligent_attack(user_board)
+#p computer_board.last_hit
 
 #p computer_board.intelligent_attack(user_board)
 
 
-#p computer_board.vertical_sink_pattern(user_board)
+#p computer_board.diagonal_down_array
+#p computer_board.diagonal_up_array
+#p computer_board.shot_sequence
 
 
 

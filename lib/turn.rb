@@ -141,6 +141,7 @@ class Turn
       show_board
       user_shot
       computer_intelligent(@user_board) #computer_shot
+      puts "#{@comp_shot}- test"
       puts user_results
       puts comp_results
       game_on = !game_over?
