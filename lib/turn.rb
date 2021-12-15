@@ -118,9 +118,11 @@ class Turn
 
   def game_over?
     if @comp_cruiser.sunk? == true && @comp_submarine.sunk? == true
+      show_board
       puts "You won!"
       return true
     elsif @user_cruiser.sunk? == true && @user_submarine.sunk? == true
+      show_board
       puts "I won!"
       return true
     else
