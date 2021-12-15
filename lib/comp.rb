@@ -15,7 +15,7 @@ class Computer
     @shot_sequence = create_shot_sequence(diagonal_up_array, diagonal_down_array)
     @last_hit = nil
     @next_hit = nil
-    @horizontal_shot_array = []
+    @shot_array = []
   end
 
   def random_coordinate  #4
@@ -90,33 +90,34 @@ class Computer
   end
 
   def vertical_sink_pattern(board)
-    coord_array = []
     ord = @last_hit[0].ord + 1
-    coord_array = ["#{ord.chr}#{@last_hit[-1]}", "#{(ord - 2).chr}#{@last_hit[-1]}"]
-    coord_array.map {|coord| coord_array.delete(coord) if board.cells.keys.include?(coord) == false}
-    coord_array
+    @shot_array = ["#{ord.chr}#{@last_hit[-1]}", "#{(ord - 2).chr}#{@last_hit[-1]}"]
+    @shot_array.map {|coord| @shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
+    kill_shots(board)
   end
 
-  def horizontal_shots(board)
-    if board.cells[@horizontal_shot_array[0]].empty? == false && board.cells[@horizontal_shot_array[0]].ship.sunk? == true
+  def kill_shots(board)
+    if board.cells[@shot_array[0]].empty? == false && board.cells[@shot_array[0]].ship.sunk? == true
       @last_hit = nil
       intelligent_attack(board)
-    elsif board.cells[@horizontal_shot_array[0]].fired_upon? == false
-      board.cells[@horizontal_shot_array[0]].fire_upon
-      @last_hit = @horizontal_shot_array[0] if board.cells[@horizontal_shot_array[0]].empty? == false
-      @horizontal_shot_array.shift
-    elsif board.cells[@horizontal_shot_array[1]].fired_upon? == false
-      board.cells[@horizontal_shot_array[1]].fire_upon
-      @last_hit = @horizontal_shot_array[1] if board.cells[@horizontal_shot_array[1]].empty? == false
-      @horizontal_shot_array.pop
+    elsif board.cells[@shot_array[0]].fired_upon? == false
+      board.cells[@shot_array[0]].fire_upon
+      @last_hit = @shot_array[0] if board.cells[@shot_array[0]].empty? == false
+      @shot_array.shift
+    elsif board.cells[@shot_array[1]].fired_upon? == false
+      board.cells[@shot_array[1]].fire_upon
+      @last_hit = @shot_array[1] if board.cells[@shot_array[1]].empty? == false
+      @shot_array.pop
+    else
+      vertical_sink_pattern(board)
     end
   end
 
   def horizontal_sink_pattern(board)
     num = @last_hit[-1].to_i
-    @horizontal_shot_array = ["#{@last_hit[0]}#{num - 1}", "#{@last_hit[0]}#{num + 1}"]
-    @horizontal_shot_array.map {|coord| @horizontal_shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
-    horizontal_shots(board)
+    @shot_array = ["#{@last_hit[0]}#{num - 1}", "#{@last_hit[0]}#{num + 1}"]
+    @shot_array.map {|coord| @shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
+    kill_shots(board)
   end
 
   def start_intelligent_shots(board)
