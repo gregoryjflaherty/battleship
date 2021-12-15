@@ -1,6 +1,6 @@
 # Battleship
 
-This is a playable game of Battleship that runs in a REPL interface. The game will allow a single human player to play against a (simplistic) computer player. The project was completed by Austin Moore and Greg Flahtery as part of the Turing 2111 BE Module 1 pair project requirement. More information about the project can be found [here](https://backend.turing.edu/module1/projects/battleship/index)
+This is a playable game of Battleship that runs in a REPL interface. The game will allow a single human player to play against a (simplistic) computer player. The project was completed by Austin Moore and Greg Flaherty as part of the Turing 2111 BE Module 1 pair project requirement. More information about the project can be found [here](https://backend.turing.edu/module1/projects/battleship/index)
 
 ## Evaluation Rubric
 
