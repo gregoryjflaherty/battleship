@@ -103,11 +103,11 @@ class Computer
       intelligent_attack(board)
     elsif board.cells[@horizontal_shot_array[0]].fired_upon? == false
       board.cells[@horizontal_shot_array[0]].fire_upon
-      @last_hit = @horizontal_shot_array[0]
+      @last_hit = @horizontal_shot_array[0] if board.cells[@horizontal_shot_array[0]].empty? == false
       @horizontal_shot_array.shift
     elsif board.cells[@horizontal_shot_array[1]].fired_upon? == false
       board.cells[@horizontal_shot_array[1]].fire_upon
-      @last_hit = @horizontal_shot_array[1]
+      @last_hit = @horizontal_shot_array[1] if board.cells[@horizontal_shot_array[1]].empty? == false
       @horizontal_shot_array.pop
     end
   end
