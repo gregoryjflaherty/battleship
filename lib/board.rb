@@ -4,10 +4,10 @@ class Board
   attr_reader :cells
 
   def initialize
-    letters = %w( A B C D )#.values_at method
+    letters = %w( A B C D )
     @cells = Hash.new { |hash, key| hash[key] = nil}
     letters.each do |letter|
-      4.times do |num| #where 4 is replaceable by some value x by user in it 4
+      4.times do |num|
         @cells["#{letter}#{num + 1}"] = Cell.new("#{letter}#{num + 1}")
       end
     end
@@ -20,7 +20,7 @@ class Board
   def valid_placement?(ship, coord_array)
 
     coord_array.each do |coordinate|
-      if valid_coordinate?(coordinate) == true && @cells[coordinate].empty? == true #Highlight this line in our readme
+      if valid_coordinate?(coordinate) == true && @cells[coordinate].empty? == true
         next
       else
         return false
@@ -30,9 +30,9 @@ class Board
     if coord_array.length == ship.length && equal_letters?(coord_array)
       nums_increase_1?(coord_array)
     elsif coord_array.length == ship.length
-      valid_vertical?(coord_array) #If true, then nums_identical && letters_increase_1
+      valid_vertical?(coord_array)
     else
-      false #Ship length is not correct
+      false
     end
   end
 
@@ -63,17 +63,16 @@ class Board
   end
 
   def render(show = false)
-    letters = %w( A B C D )#.values_at method
+    letters = %w( A B C D )
     print_array = []
-
     print_array << "  "
-    4.times do |num| #where 4 is replaceable by some value x by user in it 4
+    4.times do |num|
       print_array << "#{num + 1} "
     end
     print_array << "\n"
     letters.each do |letter|
       print_array << "#{letter} "
-      4.times do |num| #where 4 is replaceable by some value x by user in it 4
+      4.times do |num|
         print_array << "#{@cells["#{letter}#{num + 1}"].render(show)} "
       end
       print_array << "\n"
