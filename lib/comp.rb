@@ -7,16 +7,16 @@ class Computer
     @board = Board.new
   end
 
-  def random_coordinate  #4
+  def random_coordinate
     @board.cells.values.sample.coordinate
   end
 
-  def random_direction  #3
+  def random_direction
     rand_num = rand(1..2)
     rand_num == 1 ? :horizontal : :vertical
   end
 
-  def pick_direction(ship) ### 2nd
+  def pick_direction(ship)
     if random_direction == :vertical
       vertical_array(random_coordinate, ship.length)
     else
@@ -25,7 +25,7 @@ class Computer
   end
 
 
-  def horizontal_array(rand_coordinate, ship_length) ## 3rd
+  def horizontal_array(rand_coordinate, ship_length)
     coordinates = []
     ship_length.times do |i|
       coordinates << "#{rand_coordinate[0]}#{rand_coordinate[1].to_i + i}"
@@ -33,7 +33,7 @@ class Computer
     coordinates
   end
 
-  def vertical_array(rand_coordinate, ship_length) ## 3rd
+  def vertical_array(rand_coordinate, ship_length)
     coordinates = []
     ship_length.times do |i|
       ord = rand_coordinate[0].ord + i
@@ -42,7 +42,7 @@ class Computer
     coordinates
   end
 
-  def rand_place_ship(ship) ### METHOD FROM TURN -- 1st
+  def rand_place_ship(ship)
     valid = false
     while valid == false
       coordinates = pick_direction(ship)
