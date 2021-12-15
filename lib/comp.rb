@@ -92,41 +92,31 @@ class Computer
     array_2
   end
 
-  def vertical_sink_pattern(board)
+  def sink_ship_pattern(board)
     ord = @last_hit[0].ord + 1
-    @shot_array = ["#{ord.chr}#{@last_hit[-1]}", "#{(ord - 2).chr}#{@last_hit[-1]}"]
+    ord_neg = @last_hit[0].ord - 1
+    @shot_array << "#{ord.chr}#{@last_hit[-1]}"
+    @shot_array << "#{ord_neg.chr}#{@last_hit[-1]}"
+    num = @last_hit[-1].to_i
+    @shot_array << "#{@last_hit[0]}#{num - 1}"
+    @shot_array << "#{@last_hit[0]}#{num + 1}"
+    p @shot_array
+    puts 'first'
     @shot_array.map {|coord| @shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
-    @shot_array
+    @shot_array.map {|coord| @shot_array.delete(coord) if board.cells[coord].fired_upon? == true}
     @shot_array.length == 0 ? start_intelligent_shots(board) : kill_shots(board)
+    p @shot_array
+    puts 'second'
   end
 
   def kill_shots(board)
-    if board.cells[@shot_array[0]].empty? == false && board.cells[@shot_array[0]].ship.sunk? == true
-      @last_hit = nil
-      intelligent_attack(board)
-    elsif board.cells.keys.include?(@shot_array[0]) == true && board.cells[@shot_array[0]].fired_upon? == false
-      board.cells[@shot_array[0]].fire_upon
-      @last_hit = @shot_array[0] if board.cells[@shot_array[0]].empty? == false
-      @shot_array.shift
-    elsif board.cells.keys.include?(@shot_array[1]) == true && board.cells[@shot_array[1]].fired_upon? == false
-      board.cells[@shot_array[1]].fire_upon
-      @last_hit = @shot_array[1] if board.cells[@shot_array[1]].empty? == false
-      @shot_array.pop
-    else
-      vertical_sink_pattern(board)
-    end
-  end
-
-  def horizontal_sink_pattern(board)
-    num = @last_hit[-1].to_i
-    @shot_array = ["#{@last_hit[0]}#{num - 1}", "#{@last_hit[0]}#{num + 1}"]
-    @shot_array.map {|coord| @shot_array.delete(coord) if board.cells.keys.include?(coord) == false}
     p @shot_array
-    @shot_array.length == 0 ? start_intelligent_shots(board) : kill_shots(board)
+    p 'third'
+    board.cells[@shot_array[0]].fire_upon
+    @shot_array.shift
   end
 
   def start_intelligent_shots(board)
-    p @shot_sequence
     if @shot_sequence.length == 0
       @shot_sequence = board.cells.values.select {|cell| cell.shot_at == false}
       @shot_sequence = @shot_sequence.map {|cell| cell.coordinate}
@@ -144,84 +134,7 @@ class Computer
     if @last_hit == nil
       start_intelligent_shots(board)
     else @last_hit != nil
-      horizontal_sink_pattern(board)
+      sink_ship_pattern(board)
     end
   end
 end
-
-
-#user_board = Board.new
-#computer_board = Computer.new(user_board.length, user_board.height)
-#user_submarine = Ship.new("Submarine", 2)
-#user_board.place(user_submarine, ["B3", "B4"])
-#computer_board.intelligent_attack(user_board)
-#p computer_board.last_hit
-
-#p computer_board.intelligent_attack(user_board)
-
-
-#p computer_board.diagonal_down_array
-#p computer_board.diagonal_up_array
-#p computer_board.shot_sequence
-#p computer_board.intelligent_attack(user_board)
-
-
-
-
-
-
-=begin
-user = Board.new
-computer = Computer.new(user.length, user.height)
-#computer.horizontal_sink_pattern(user)
-p computer.vertical_sink_pattern(user)
-
-
-  def attack(board)
-    start_intelligent_shots(board) if @last_hit == nil
-  end
-
-  def sink_the_ship(board)
-    if horizontal_sink_pattern.length.zero?
-      #vertical
-    else
-      horizontal_sink_pattern[]
-  end
-
-  def horizontal_shots(coord_array, board)
-
-  end
-
-
-  def horizontal_sink_pattern(board)
-    coord_array = ["#{@last_hit[0]}#{num}", "#{@last_hit[0]}#{num -2}"]
-    coord_array.map {|coord| coord_array.delete(coord) if board.cells.keys.include?(coord) == false}
-
-
-  end
-
-  def vertical_sink_pattern(board)
-    coord_array = []
-    ord = @last_hit[0].ord + 1
-    coord_array = ["#{ord.chr}#{@last_hit[-1]}", "#{(ord - 2).chr}#{@last_hit[-1]}"]
-    coord_array.map {|coord| coord_array.delete(coord) if board.cells.keys.include?(coord) == false}
-    coord_array
-  end
-=end
-=begin
-def horizontal_shots(board)
-  if @next_hit == nil
-    @next_hit = "#{@last_hit[0]}#{@last_hit[-1].to_i + 1}" ## EX A3
-  end
-  board.cells[@next_hit].fire_upon
-  if board.cells[@next_hit].ship == nil
-    if board.cells["#{@last_hit[0]}#{@last_hit[-1].to_i - 1}"].fired_upon? #A2
-      @next_hit = "#{@last_hit[0]}#{@last_hit[-1].to_i - 2}" #A1
-    else
-      @next_hit = "#{@last_hit[0]}#{@last_hit[-1].to_i - 1}" #A2
-    end
-  else
-    @last_hit = @next_hit #might need to reverse this
-  end
-end
-=end
