@@ -24,7 +24,7 @@ We ultimately decided that we wanted to challenge ourself on this project, with 
 
 Accepting this challenge early put us in a design mindset that carried over to our valid_placement? method. We wanted to create a scalable method for any size board, so we spent a lot of time talking about edge cases. Our planning resulted in this flowchart that we guided our coding off of.
 
-Insert valid placement image here
+![Valid_Method? Flowchart](/valid_placement (1).pdf "Valid_Method? Flowchart")
 
 ## Experience Gained
 We will highlight the problem solving we accomplished
