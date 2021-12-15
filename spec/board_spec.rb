@@ -23,7 +23,7 @@ RSpec.describe Board do
     expect(board.valid_coordinate?("A22")).to be(false)
   end
 
-  it 'can validate coordinate and ship length'  do
+  it 'can validate coordinate and ship length' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     expect(board.valid_placement?(cruiser, ["A1", "A2"])).to be(false)
@@ -31,7 +31,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to be(false)
   end
 
-  it 'can validate coordinates are consecutive'  do
+  it 'can validate coordinates are consecutive' do
     board = Board.new
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
@@ -41,7 +41,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["C1", "B1"])).to be(false)
   end
 
-  it 'can validate coordinates are not diagonal'  do
+  it 'can validate coordinates are not diagonal' do
     board = Board.new
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
@@ -49,7 +49,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["C2", "D3"])).to be(false)
   end
 
-  it 'can validate good placement'  do
+  it 'can validate good placement' do
     board = Board.new
     submarine = Ship.new("Submarine", 2)
     cruiser = Ship.new("Cruiser", 3)
@@ -57,7 +57,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(cruiser, ["B1", "C1", "D1"])).to be(true)
   end
 
-  it 'can place a cruiser'  do
+  it 'can place a cruiser' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     cell_1 = board.cells["A1"]
@@ -91,7 +91,7 @@ RSpec.describe Board do
     expect(cell_4.ship).to eq(cell_5.ship)
   end
 
-  it 'places the same cruiser in every cell'  do
+  it 'places the same cruiser in every cell' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     cell_1 = board.cells["A1"]
@@ -103,7 +103,7 @@ RSpec.describe Board do
     expect(cell_2.ship).to eq(cell_3.ship)
   end
 
-  it 'denies overlapping ships'  do
+  it 'denies overlapping ships' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -112,7 +112,7 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["A1", "B1"])).to be(false)
   end
 
-  it 'renders'  do
+  it 'renders' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
@@ -121,7 +121,7 @@ RSpec.describe Board do
     expect(board.render).to eq("  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n")
   end
 
-  it 'renders true'  do
+  it 'renders true' do
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
